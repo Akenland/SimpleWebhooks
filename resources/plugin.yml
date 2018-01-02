@@ -1,0 +1,11 @@
+name: SimpleWebhooks
+version: 1.0pre
+description: A simple plugin for sending data to webhooks.
+author: Kyle Nanakdewa
+website: http://Akenland.com/plugins
+
+main: com.kylenanakdewa.simplewebhooks.WebhooksPlugin
+
+commands:
+  webhooks:
+    description: Main plugin command
