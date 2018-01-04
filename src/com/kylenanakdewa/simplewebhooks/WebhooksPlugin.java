@@ -38,6 +38,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerWebhookListener(), this);
 
 		// Load config
+		saveDefaultConfig();
 		loadConfig();
 	}
 

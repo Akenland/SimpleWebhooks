@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 
-import com.KyleNecrowolf.RealmsCore.Main;
-
 /**
  * A Webhook that can be executed to send a payload to a webserver.
  */
@@ -76,7 +74,7 @@ public class Webhook {
             connection.connect();
 
         } catch(IOException e){
-			Main.plugin.getLogger().severe(e.getLocalizedMessage());
+			WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
 		}
     }
 
@@ -92,7 +90,7 @@ public class Webhook {
                 sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + "&");
             return "?"+sb.toString();
         } catch(UnsupportedEncodingException e){
-            Main.plugin.getLogger().severe(e.getLocalizedMessage());
+            WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
             return null;
         }
     }
@@ -101,7 +99,7 @@ public class Webhook {
     private void replaceParamVars(){
         replaceParamVar("{PLAYER_COUNT}", Bukkit.getOnlinePlayers().size()+"");
         replaceParamVar("{MAX_PLAYER_COUNT}", Bukkit.getMaxPlayers()+"");
-        replaceParamVar("{SERVER_VERSION}", Bukkit.getBukkitVersion());
+        replaceParamVar("{SERVER_VERSION}", Bukkit.getVersion());
         replaceParamVar("{SERVER_MOTD}", Bukkit.getMotd());
         replaceParamVar("{WORLD_NAME}", Bukkit.getWorlds().get(0).getName());
     }

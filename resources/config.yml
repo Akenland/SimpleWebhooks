@@ -1,0 +1,99 @@
+# SimpleWebhooks by Kyle Nanakdewa
+# Configuration
+
+# Thank you for using SimpleWebhooks! See my other plugins at http://akenland.com/plugins
+
+# Don't change the formatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
+
+# There are four sections below: join, chat, quit, and other.
+# You can have any number of webhooks in each section.
+
+# A webhook entry looks like:
+#   webhook-name:                                               # The unique name of the webhook.
+#     url: http://someurl.com/                                  # The URL of the webhook. MUST include the protocol (http://) AND the '/' at the end.
+#     query:                                                    # The query data to be sent (optional)
+#       value1: "Some value to be sent as query data."          # Query data is added onto end of URL, like http://someurl.com/?value1=some-value
+#     form:                                                     # The JSON/form data to be sent (optional)
+#       value1: "Some value to be sent as JSON/Form data."      # If this is excluded, a GET request will be fired. If included, a POST request is fired.
+
+# The values for query and form data can include the following variables:
+# {PLAYER_COUNT} - the current number of players on the server
+# {MAX_PLAYER_COUNT} - the maximum number of players that can be online, as set in server.properties
+# {SERVER_VERSION} - the Minecraft version of this server
+# {SERVER_MOTD} - the MOTD of this server, as set in server.properties
+# {WORLD_NAME} - the name of the server's default world, as set in server.properties
+
+# For join, quit, and chat webhooks, you can also use these variables:
+# {PLAYER_USERNAME} - username of the player
+# {PLAYER_DISPLAYNAME} - display name (nickname) of the player, or their username if they don't have one
+# {PLAYER_ISNEW} - TRUE if the player is on the server for the first time, otherwise FALSE
+# {PLAYER_UUID} - the UUID of the player
+# {PLAYER_IP} - the IP address of the player
+# {PLAYER_ENTITYID} - the entity ID of the player (every entity in a world has a unique ID, this is NOT their Minecraft UUID)
+# {PLAYER_LOC_WORLD} - the world the player is currently on
+# {PLAYER_LOC_X} - X co-ord of the player
+# {PLAYER_LOC_Y} - Y co-ord of the player
+# {PLAYER_LOC_Z} - Z co-ord of the player
+# {EVENT_MESSAGE} - a "friendly" message for the event, matching the one shown in-game ("SomePlayer joined the game.") Chat is displayed with name AND message: "<SomePlayer> This is a chat message!"
+
+# For chat webhooks, you can also use the following:
+# {CHAT_MESSAGE} - the chat message, without the player name in front of it.
+
+# Full documentation can be found at http://akenland.com/plugins/webhooks
+# After editing this file, use "/webhooks reload" to load your changes into the server.
+
+
+webhooks:
+
+  # Webhooks in this section are executed automatically when any player joins the server.
+  join:
+
+    # An example player join webhook. The form data will be sent to the specified URL.
+    example-join:
+      url: http://someurl.com/
+      form:
+        message: "{PLAYER_NAME} joined the server! They are on world {PLAYER_WORLD}."
+        player-count: "There are {PLAYER_COUNT} players online, out of a maximum of {MAX_PLAYER_COUNT}."
+
+
+  # Webhooks in this section are executed automatically when any chat message is sent.
+  chat:
+
+    # An example to mirror your server's chat into a Discord channel. Create your Discord webhook URL in Server/Channel Settings.
+    # The player's display name and skin will also be sent into Discord, so it looks like a normal Discord message.
+    example-discord-chat-sync:
+      url: https://discordapp.com/api/webhooks/FILL-IN-YOUR-DISCORD-WEBHOOK-URL/
+      form:
+        content: "{CHAT_MESSAGE}"
+        username: "{PLAYER_DISPLAYNAME}"
+        avatar_url: "https://minotar.net/helm/{PLAYER_NAME}"
+
+
+  # Webhooks in this section are executed automatically when any player leaves the server.
+  quit:
+
+    # An example for IFTTT. You can create an applet to be triggered (using the Webhook service on IFTTT) when a player quits.
+    # Three values can be sent to IFTTT and used as "ingredients" for your triggered action.
+    example-ifttt-quit:
+      url: https://maker.ifttt.com/trigger/FILL_IN_YOUR_EVENT_NAME/with/key/FILL_IN_YOUR_KEY/
+      form:
+        value1: "{PLAYER_USERNAME}"
+        value2: "{PLAYER_IP}"
+        value3: "{PLAYER_UUID}"
+
+
+  # Webhooks in this section are not executed automatically - only through the command "/webhooks execute <webhook name> [params...]""
+  other:
+
+    # An example that can be used through a command block, useful if you want to fire webhooks using redstone.
+    # Or, set up an alias command, and your admins can trigger webhooks with commands.
+    # Command is "/webhooks execute example-command-block [param 1] [param 2] [param 3]"
+    # You can have any number of params in the command.
+    example-command-block:
+      url: http://someurl.com/
+      form:
+        value1: "{COMMAND_PARAM_1}"
+        value2: "{COMMAND_PARAM_2}"
+        value3: "{COMMAND_PARAM_3}"

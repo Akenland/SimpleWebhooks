@@ -16,7 +16,7 @@ final class PlayerWebhookListener implements Listener {
     /** Replace variables for player event webhooks. */
     private void replaceParamVars(Webhook webhook, PlayerEvent event){
         webhook.replaceParamVar("{PLAYER_USERNAME}", event.getPlayer().getName());
-        webhook.replaceParamVar("{PLAYER_DISPLAYNAME}", event.getPlayer().getDisplayName());
+        webhook.replaceParamVar("{PLAYER_DISPLAYNAME}", ChatColor.stripColor(event.getPlayer().getDisplayName()));
         webhook.replaceParamVar("{PLAYER_ISNEW}", event.getPlayer().hasPlayedBefore()+"");
         webhook.replaceParamVar("{PLAYER_UUID}", event.getPlayer().getUniqueId().toString());
         webhook.replaceParamVar("{PLAYER_IP}", event.getPlayer().getAddress().getAddress().getHostAddress());
