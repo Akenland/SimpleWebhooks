@@ -74,14 +74,16 @@ public final class WebhooksPlugin extends JavaPlugin {
 
 			// Query params
 			Map<String,String> queryParams = new HashMap<String,String>();
-			for(String paramKey : config.getConfigurationSection(webhookName+".query").getKeys(false)){
-				queryParams.put(paramKey, config.getString(webhookName+".query."+paramKey));
+			if(config.contains(webhookName+".query")){
+				for(String paramKey : config.getConfigurationSection(webhookName+".query").getKeys(false))
+					queryParams.put(paramKey, config.getString(webhookName+".query."+paramKey));
 			}
 
 			// Form params for POST
 			Map<String,String> formParams = new HashMap<String,String>();
-			for(String paramKey : config.getConfigurationSection(webhookName+".form").getKeys(false)){
-				formParams.put(paramKey, config.getString(webhookName+".query."+paramKey));
+			if(config.contains(webhookName+".form")){
+				for(String paramKey : config.getConfigurationSection(webhookName+".form").getKeys(false))
+					formParams.put(paramKey, config.getString(webhookName+".form."+paramKey));
 			}
 			RequestType requestType = formParams.isEmpty() ? RequestType.GET : RequestType.POST;
 
