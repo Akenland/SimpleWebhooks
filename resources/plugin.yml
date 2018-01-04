@@ -8,4 +8,6 @@ main: com.kylenanakdewa.simplewebhooks.WebhooksPlugin
 
 commands:
   webhooks:
-    description: Main plugin command
+    description: View plugin information, reload the plugin, and execute webhooks.
+    permission: webhooks.admin
+    usage: /webhooks <version/reload/execute> [webhook name] [params...]
