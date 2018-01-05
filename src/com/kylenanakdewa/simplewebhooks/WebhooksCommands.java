@@ -1,6 +1,7 @@
 package com.kylenanakdewa.simplewebhooks;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -105,6 +106,8 @@ public class WebhooksCommands implements TabExecutor {
                 connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
 
                 connection.connect();
+                sender.sendMessage(("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage()));
+
                 return true;
         
             } catch(IOException e){
