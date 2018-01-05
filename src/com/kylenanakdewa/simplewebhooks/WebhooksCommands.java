@@ -1,5 +1,9 @@
 package com.kylenanakdewa.simplewebhooks;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +89,28 @@ public class WebhooksCommands implements TabExecutor {
             webhook.execute();
             sender.sendMessage("Webhook "+name+" executed.");
             return true;
+        }
+
+        if(args.length>=2 && args[0].equalsIgnoreCase("executecustom")){
+            try{
+                URL url = new URL(args[1]);
+            
+                URLConnection connection = url.openConnection();
+                connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                String output = args[2];
+
+                connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
+
+                connection.connect();
+                return true;
+        
+            } catch(IOException e){
+                sender.sendMessage("Invalid webhook.");
+                return false;
+            }
         }
         
         // Invalid command
