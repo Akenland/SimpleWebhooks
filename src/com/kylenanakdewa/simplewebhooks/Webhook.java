@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -41,6 +42,9 @@ public class Webhook {
         this.queryParams = queryParams;
         this.requestType = requestType;
         this.formParams = formParams;
+
+        // Param variables
+        paramVars = new HashMap<String,String>();
         replaceParamVars();
     }
     /** Creates a simple GET webhook. */
