@@ -66,6 +66,7 @@ public class Webhook {
         try{
             // Encode query params
             String encodedQuery = getEncodedParams(queryParams);
+            if(!encodedQuery.isEmpty()) encodedQuery = "?"+encodedQuery;
 
             // Open the connection
             URLConnection connection = new URL(url+encodedQuery).openConnection();
@@ -93,18 +94,20 @@ public class Webhook {
 
     /** Encodes parameters. Also replaces variables. */
     private String getEncodedParams(Map<String,String> params){
+        if(params.isEmpty()) return "";
+
         // Convert variables
-        for(Map.Entry<String,String> var : paramVars.entrySet())
+        for(Map.Entry<String,String> var : params.entrySet())
             params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
 
         try{
             StringBuilder sb = new StringBuilder();
             for(Map.Entry<String,String> param : params.entrySet())
                 sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + "&");
-            return "?"+sb.toString();
+            return sb.toString();
         } catch(UnsupportedEncodingException e){
             WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
-            return null;
+            return "";
         }
     }
 
