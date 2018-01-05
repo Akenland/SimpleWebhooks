@@ -75,7 +75,7 @@ public class Webhook {
             // If POST, send output data
             if(requestType.equals(RequestType.POST)){
                 connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset="+charset);
+                connection.setRequestProperty("Content-Type", "multipart/form-data");
 
                 // Encode form params
                 String encodedOutput = getEncodedParams(formParams);
