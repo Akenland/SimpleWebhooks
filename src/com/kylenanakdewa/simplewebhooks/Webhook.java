@@ -53,6 +53,12 @@ public class Webhook {
     }
 
 
+    /** Gets the URL for this webhook. */
+    URL getURL(){
+        return url;
+    }
+
+
     /** Executes the webhook, sending the data to the server. */
     void execute(){
         WebhooksPlugin.plugin.getLogger().info("Executing "+requestType+"webhook for URL "+url);

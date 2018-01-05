@@ -3,6 +3,8 @@ package com.kylenanakdewa.simplewebhooks;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -20,7 +22,32 @@ public class WebhooksCommands implements TabExecutor {
             sender.sendMessage("- A simple plugin for sending data to webhooks.");
             sender.sendMessage("- Website: http://Akenland.com/plugins");
 			return true;
-		}
+        }
+
+        // List command
+        if(args.length==1 && args[0].equalsIgnoreCase("list")){
+            sender.sendMessage("--- Join Webhooks ---");
+            for(Map.Entry<String,Webhook> entry : WebhooksPlugin.joinWebhooks.entrySet()){
+                sender.sendMessage("- "+entry.getKey()+" - "+entry.getValue().getURL());
+            }
+
+            sender.sendMessage("--- Quit Webhooks ---");
+            for(Map.Entry<String,Webhook> entry : WebhooksPlugin.quitWebhooks.entrySet()){
+                sender.sendMessage("- "+entry.getKey()+" - "+entry.getValue().getURL());
+            }
+
+            sender.sendMessage("--- Chat Webhooks ---");
+            for(Map.Entry<String,Webhook> entry : WebhooksPlugin.chatWebhooks.entrySet()){
+                sender.sendMessage("- "+entry.getKey()+" - "+entry.getValue().getURL());
+            }
+
+            sender.sendMessage("--- Other Webhooks ---");
+            for(Map.Entry<String,Webhook> entry : WebhooksPlugin.otherWebhooks.entrySet()){
+                sender.sendMessage("- "+entry.getKey()+" - "+entry.getValue().getURL());
+            }
+
+            return true;
+        }
 
 		// Reload command
 		if(args.length==1 && args[0].equalsIgnoreCase("reload")){
@@ -68,7 +95,7 @@ public class WebhooksCommands implements TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         // Main command - return each sub-command
-        if(args.length<=1) return Arrays.asList("version", "reload", "execute");
+        if(args.length<=1) return Arrays.asList("version", "list", "reload", "execute");
         // Execute command - return list of webhooks
         if(args.length>=1 && args[0].equalsIgnoreCase("execute") && args.length<=2) return new ArrayList<String>(WebhooksPlugin.otherWebhooks.keySet());
         // Otherwise return nothing

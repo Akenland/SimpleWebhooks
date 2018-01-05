@@ -10,4 +10,4 @@ commands:
   webhooks:
     description: View plugin information, reload the plugin, and execute webhooks.
     permission: webhooks.admin
-    usage: /webhooks <version/reload/execute> [webhook name] [params...]
+    usage: /webhooks <version/list/reload/execute> [webhook name] [params...]
