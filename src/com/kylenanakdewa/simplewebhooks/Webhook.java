@@ -75,10 +75,10 @@ public class Webhook {
             // If POST, send output data
             if(requestType.equals(RequestType.POST)){
                 connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "multipart/form-data");
+                connection.setRequestProperty("Content-Type", "application/json");
 
                 // Encode form params
-                String encodedOutput = getEncodedParams(formParams);
+                String encodedOutput = "{"+getEncodedParams(formParams)+"}";
 
                 connection.getOutputStream().write(encodedOutput.getBytes());
             }
@@ -103,7 +103,8 @@ public class Webhook {
         try{
             StringBuilder sb = new StringBuilder();
             for(Map.Entry<String,String> param : params.entrySet())
-                sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + "&");
+                sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + ",");
+            sb.deleteCharAt(sb.length()-1);
             return sb.toString();
         } catch(UnsupportedEncodingException e){
             WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
