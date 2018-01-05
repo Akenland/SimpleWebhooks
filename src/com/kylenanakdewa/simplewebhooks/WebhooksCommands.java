@@ -100,11 +100,14 @@ public class WebhooksCommands implements TabExecutor {
                 URLConnection connection = url.openConnection();
                 connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
                 connection.setRequestProperty("Content-Type", "application/json");
-                connection.setDoOutput(true);
 
-                String output = URLEncoder.encode(args[2], java.nio.charset.StandardCharsets.UTF_8.name());
+                if(args.length==3){
+                    connection.setDoOutput(true);
 
-                connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
+                    String output = URLEncoder.encode(args[2], java.nio.charset.StandardCharsets.UTF_8.name());
+
+                    connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
+                }                
 
                 connection.connect();
                 sender.sendMessage(("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage()));
