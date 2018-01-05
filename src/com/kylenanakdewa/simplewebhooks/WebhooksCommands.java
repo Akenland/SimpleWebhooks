@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,7 +102,7 @@ public class WebhooksCommands implements TabExecutor {
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setDoOutput(true);
 
-                String output = args[2];
+                String output = URLEncoder.encode(args[2], java.nio.charset.StandardCharsets.UTF_8.name());
 
                 connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
 
