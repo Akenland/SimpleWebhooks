@@ -57,7 +57,7 @@ public class WebhooksCommands implements TabExecutor {
 		}
 
 		// Execute command
-		if(args.length==2 && args[0].equalsIgnoreCase("execute")){
+		if(args.length>=2 && args[0].equalsIgnoreCase("execute")){
             // Find the webhook
             String name = args[1].toLowerCase();
 			Webhook webhook;
