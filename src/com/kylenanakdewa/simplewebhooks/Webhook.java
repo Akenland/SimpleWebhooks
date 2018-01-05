@@ -62,7 +62,7 @@ public class Webhook {
 
     /** Executes the webhook, sending the data to the server. */
     void execute(){
-        WebhooksPlugin.plugin.getLogger().info("Executing "+requestType+"webhook for URL "+url);
+        //WebhooksPlugin.plugin.getLogger().info("Executing "+requestType+"webhook for URL "+url);
         try{
             // Encode query params
             String encodedQuery = getEncodedParams(queryParams);
@@ -85,7 +85,7 @@ public class Webhook {
 
             // Complete the HTTP request
             connection.connect();
-            WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
+            //WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
 
         } catch(IOException e){
 			WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
