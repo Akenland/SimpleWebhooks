@@ -46,7 +46,7 @@ public class WebhooksCommands implements TabExecutor {
             }
 
             // Replace params
-            List<String> paramArgs = Arrays.asList(args);
+            List<String> paramArgs = new ArrayList<String>(Arrays.asList(args));
             paramArgs.remove(0); paramArgs.remove(0);
             for(String arg : paramArgs){
                 webhook.replaceParamVar("{COMMAND_PARAM_"+(paramArgs.indexOf(arg)+1)+"}", arg);
