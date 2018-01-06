@@ -2,6 +2,7 @@ package com.kylenanakdewa.simplewebhooks;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -27,7 +28,7 @@ final class PlayerWebhookListener implements Listener {
         webhook.replaceParamVar("{PLAYER_LOC_Z}", event.getPlayer().getLocation().getZ()+"");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.joinWebhooks.values()){
@@ -39,7 +40,7 @@ final class PlayerWebhookListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.quitWebhooks.values()){
@@ -51,7 +52,7 @@ final class PlayerWebhookListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.chatWebhooks.values()){

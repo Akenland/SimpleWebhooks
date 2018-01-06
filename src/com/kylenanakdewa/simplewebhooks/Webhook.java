@@ -2,7 +2,6 @@ package com.kylenanakdewa.simplewebhooks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -86,7 +85,7 @@ public class Webhook {
 
             // Complete the HTTP request
             connection.connect();
-            WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
+            //WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
 
         } catch(IOException e){
 			WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
@@ -135,7 +134,7 @@ public class Webhook {
         sb.deleteCharAt(sb.length()-1);
         sb.append('}');
 
-        WebhooksPlugin.plugin.getLogger().info("JSON formatted as: "+sb);
+        //WebhooksPlugin.plugin.getLogger().info("JSON formatted as: "+sb);
         return sb.toString();
     }
 
