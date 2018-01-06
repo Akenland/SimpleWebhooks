@@ -71,6 +71,7 @@ public class Webhook {
             // Open the connection
             URLConnection connection = new URL(url+encodedQuery).openConnection();
             connection.setRequestProperty("Accept-Charset", charset);
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
             // If POST, send output data
             if(requestType.equals(RequestType.POST)){

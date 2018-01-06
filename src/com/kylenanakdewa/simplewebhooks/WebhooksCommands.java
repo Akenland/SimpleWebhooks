@@ -105,7 +105,7 @@ public class WebhooksCommands implements TabExecutor {
                 if(args.length==3){
                     connection.setDoOutput(true);
 
-                    String output = URLEncoder.encode(args[2], java.nio.charset.StandardCharsets.UTF_8.name());
+                    String output = args[2];
 
                     connection.getOutputStream().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8.name()));
                 }                
