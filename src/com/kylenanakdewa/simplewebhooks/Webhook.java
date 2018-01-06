@@ -98,12 +98,16 @@ public class Webhook {
         if(params.isEmpty()) return "";
 
         // Convert variables
-        for(Map.Entry<String,String> var : paramVars.entrySet())
-            params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
+        Map<String,String> convertedParams = new HashMap<>(params);
+        for(Map.Entry<String,String> var : paramVars.entrySet()){
+            for(Map.Entry<String,String> param : convertedParams.entrySet()){
+                convertedParams.replace(param.getKey(), param.getValue().replace(var.getKey(), var.getValue()));
+            }
+        }
 
         try{
             StringBuilder sb = new StringBuilder();
-            for(Map.Entry<String,String> param : params.entrySet())
+            for(Map.Entry<String,String> param : convertedParams.entrySet())
                 sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + "&");
             sb.deleteCharAt(sb.length()-1);
             return sb.toString();
@@ -117,15 +121,20 @@ public class Webhook {
         if(params.isEmpty()) return "";
 
         // Convert variables
-        for(Map.Entry<String,String> var : paramVars.entrySet())
-            params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
+        Map<String,String> convertedParams = new HashMap<>(params);
+        for(Map.Entry<String,String> var : paramVars.entrySet()){
+            for(Map.Entry<String,String> param : convertedParams.entrySet()){
+                convertedParams.replace(param.getKey(), param.getValue().replace(var.getKey(), var.getValue()));
+            }
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append('{');
-        for(Map.Entry<String,String> param : params.entrySet())
+        for(Map.Entry<String,String> param : convertedParams.entrySet())
             sb.append("\""+param.getKey() + "\":\"" + param.getValue() + "\",");
         sb.deleteCharAt(sb.length()-1);
         sb.append('}');
+
         WebhooksPlugin.plugin.getLogger().info("JSON formatted as: "+sb);
         return sb.toString();
     }
