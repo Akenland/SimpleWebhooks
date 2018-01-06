@@ -1,9 +1,5 @@
 package com.kylenanakdewa.simplewebhooks;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,6 +79,7 @@ public class WebhooksCommands implements TabExecutor {
                 for(String arg : paramArgs){
                     webhook.replaceParamVar("{COMMAND_PARAM_"+(paramArgs.indexOf(arg)+1)+"}", arg);
                 }
+                webhook.replaceParamVar("{COMMAND_PARAM_ALL}", String.join(" ", paramArgs));
             }
 
             // Execute the webhook
@@ -92,7 +89,7 @@ public class WebhooksCommands implements TabExecutor {
         }
 
         // Custom webhook execution - TO BE DISABLED
-        if(args.length>=2 && args[0].equalsIgnoreCase("executecustom")){
+        /*if(args.length>=2 && args[0].equalsIgnoreCase("executecustom")){
             try{
                 URL url = new URL(args[1]);
             
@@ -118,8 +115,8 @@ public class WebhooksCommands implements TabExecutor {
                 sender.sendMessage("Invalid webhook.");
                 return false;
             }
-        }
-        
+        }*/
+
         // Invalid command
         sender.sendMessage("Invalid arguments.");
         return false;

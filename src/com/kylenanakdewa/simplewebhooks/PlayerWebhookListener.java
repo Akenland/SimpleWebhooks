@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
- * A webhook fired when a player joins the server.
+ * Listeners to fire webhooks when a player event happens.
  */
 final class PlayerWebhookListener implements Listener {
 
