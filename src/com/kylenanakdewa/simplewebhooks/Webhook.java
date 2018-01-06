@@ -98,7 +98,7 @@ public class Webhook {
         if(params.isEmpty()) return "";
 
         // Convert variables
-        for(Map.Entry<String,String> var : params.entrySet())
+        for(Map.Entry<String,String> var : paramVars.entrySet())
             params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
 
         try{
@@ -117,7 +117,7 @@ public class Webhook {
         if(params.isEmpty()) return "";
 
         // Convert variables
-        for(Map.Entry<String,String> var : params.entrySet())
+        for(Map.Entry<String,String> var : paramVars.entrySet())
             params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
 
         StringBuilder sb = new StringBuilder();
