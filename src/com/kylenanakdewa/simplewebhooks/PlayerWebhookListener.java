@@ -28,7 +28,7 @@ final class PlayerWebhookListener implements Listener {
         webhook.replaceParamVar("{PLAYER_LOC_Z}", event.getPlayer().getLocation().getZ()+"");
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.joinWebhooks.values()){
@@ -40,7 +40,7 @@ final class PlayerWebhookListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.quitWebhooks.values()){
@@ -52,7 +52,7 @@ final class PlayerWebhookListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onChat(AsyncPlayerChatEvent event){
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.chatWebhooks.values()){
