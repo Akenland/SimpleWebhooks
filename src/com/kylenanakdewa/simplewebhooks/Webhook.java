@@ -79,9 +79,9 @@ public class Webhook {
                 connection.setRequestProperty("Content-Type", "application/json");
 
                 // Encode form params
-                String encodedOutput = "{"+getEncodedParams(formParams)+"}";
+                String jsonOutput = getJsonParams(formParams);
 
-                connection.getOutputStream().write(encodedOutput.getBytes());
+                connection.getOutputStream().write(jsonOutput.getBytes());
             }
 
             // Complete the HTTP request
@@ -104,13 +104,29 @@ public class Webhook {
         try{
             StringBuilder sb = new StringBuilder();
             for(Map.Entry<String,String> param : params.entrySet())
-                sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + ",");
+                sb.append(URLEncoder.encode(param.getKey(), charset) + "=" + URLEncoder.encode(param.getValue(), charset) + "&");
             sb.deleteCharAt(sb.length()-1);
             return sb.toString();
         } catch(UnsupportedEncodingException e){
             WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
             return "";
         }
+    }
+    /** Encodes parameters. Also replaces variables. */
+    private String getJsonParams(Map<String,String> params){
+        if(params.isEmpty()) return "";
+
+        // Convert variables
+        for(Map.Entry<String,String> var : params.entrySet())
+            params.values().forEach(param -> param = param.replace(var.getKey(), var.getValue()));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        for(Map.Entry<String,String> param : params.entrySet())
+            sb.append("\""+param.getKey() + "\":\"" + param.getValue() + "\",");
+        sb.deleteCharAt(sb.length()-1);
+        sb.append('}');
+        return sb.toString();
     }
 
     /** Parses variables in the parameters. */
