@@ -2,6 +2,7 @@ package com.kylenanakdewa.simplewebhooks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -70,22 +71,22 @@ public class Webhook {
             // Open the connection
             URLConnection connection = new URL(url+encodedQuery).openConnection();
             connection.setRequestProperty("Accept-Charset", charset);
+            connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 
             // If POST, send output data
             if(requestType.equals(RequestType.POST)){
                 connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "application/json");
 
                 // Encode JSON params
                 String jsonOutput = getJsonParams(jsonParams);
 
-                connection.getOutputStream().write(jsonOutput.getBytes());
+                connection.getOutputStream().write(jsonOutput.getBytes(charset));
             }
 
             // Complete the HTTP request
             connection.connect();
-            //WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
+            WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
 
         } catch(IOException e){
 			WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
@@ -125,6 +126,7 @@ public class Webhook {
             sb.append("\""+param.getKey() + "\":\"" + param.getValue() + "\",");
         sb.deleteCharAt(sb.length()-1);
         sb.append('}');
+        WebhooksPlugin.plugin.getLogger().info("JSON formatted as: "+sb);
         return sb.toString();
     }
 
