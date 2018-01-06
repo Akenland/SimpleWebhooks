@@ -3,8 +3,8 @@
 
 # Thank you for using SimpleWebhooks! See my other plugins at http://akenland.com/plugins
 
-# Don't change the formatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
-# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
+# Don't change the jsonatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with jsonatting.
 # Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
 
 # There are four sections below: join, chat, quit, and other.
@@ -15,10 +15,10 @@
 #     url: http://someurl.com/                                  # The URL of the webhook. MUST include the protocol (http://) AND the '/' at the end.
 #     query:                                                    # The query data to be sent (optional)
 #       value1: "Some value to be sent as query data."          # Query data is added onto end of URL, like http://someurl.com/?value1=some-value
-#     form:                                                     # The JSON/form data to be sent (optional)
-#       value1: "Some value to be sent as JSON/Form data."      # If this is excluded, a GET request will be fired. If included, a POST request is fired.
+#     json:                                                     # The JSON data to be sent (optional)
+#       value1: "Some value to be sent as JSON data."           # If this is excluded, a GET request will be fired. If included, a POST request is fired.
 
-# The values for query and form data can include the following variables:
+# The values for query and json data can include the following variables:
 # {PLAYER_COUNT} - the current number of players on the server
 # {MAX_PLAYER_COUNT} - the maximum number of players that can be online, as set in server.properties
 # {SERVER_VERSION} - the Minecraft version of this server
@@ -50,10 +50,10 @@ webhooks:
   # Webhooks in this section are executed automatically when any player joins the server.
   join:
 
-    # An example player join webhook. The form data will be sent to the specified URL.
+    # An example player join webhook. The json data will be sent to the specified URL.
     example-join:
       url: http://someurl.com/
-      form:
+      json:
         message: "{PLAYER_NAME} joined the server! They are on world {PLAYER_WORLD}."
         player-count: "There are {PLAYER_COUNT} players online, out of a maximum of {MAX_PLAYER_COUNT}."
 
@@ -65,7 +65,7 @@ webhooks:
     # The player's display name and skin will also be sent into Discord, so it looks like a normal Discord message.
     example-discord-chat-sync:
       url: https://discordapp.com/api/webhooks/FILL-IN-YOUR-DISCORD-WEBHOOK-URL/
-      form:
+      json:
         content: "{CHAT_MESSAGE}"
         username: "{PLAYER_DISPLAYNAME}"
         avatar_url: "https://minotar.net/helm/{PLAYER_NAME}"
@@ -78,7 +78,7 @@ webhooks:
     # Three values can be sent to IFTTT and used as "ingredients" for your triggered action.
     example-ifttt-quit:
       url: https://maker.ifttt.com/trigger/FILL_IN_YOUR_EVENT_NAME/with/key/FILL_IN_YOUR_KEY/
-      form:
+      json:
         value1: "{PLAYER_USERNAME}"
         value2: "{PLAYER_IP}"
         value3: "{PLAYER_UUID}"
@@ -93,7 +93,7 @@ webhooks:
     # You can have any number of params in the command.
     example-command-block:
       url: http://someurl.com/
-      form:
+      json:
         value1: "{COMMAND_PARAM_1}"
         value2: "{COMMAND_PARAM_2}"
         value3: "{COMMAND_PARAM_3}"

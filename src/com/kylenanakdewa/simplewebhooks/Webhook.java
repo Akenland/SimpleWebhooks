@@ -2,7 +2,6 @@ package com.kylenanakdewa.simplewebhooks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -28,8 +27,8 @@ public class Webhook {
     /** The available types of HTTP requests. */
     enum RequestType {GET, POST;}
 
-    /** Form content for POST requests. */
-    private Map<String,String> formParams;
+    /** JSON content for POST requests. */
+    private Map<String,String> jsonParams;
 
 
     /** Variables in params that should be replaced on execution. */
@@ -37,12 +36,12 @@ public class Webhook {
 
 
     /** Creates a webhook. */
-    Webhook(URL url, Map<String,String> queryParams, RequestType requestType, Map<String,String> formParams){
+    Webhook(URL url, Map<String,String> queryParams, RequestType requestType, Map<String,String> jsonParams){
         this.url = url;
         this.charset = java.nio.charset.StandardCharsets.UTF_8.name();
         this.queryParams = queryParams;
         this.requestType = requestType;
-        this.formParams = formParams;
+        this.jsonParams = jsonParams;
 
         // Param variables
         paramVars = new HashMap<String,String>();
@@ -78,8 +77,8 @@ public class Webhook {
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
 
-                // Encode form params
-                String jsonOutput = getJsonParams(formParams);
+                // Encode JSON params
+                String jsonOutput = getJsonParams(jsonParams);
 
                 connection.getOutputStream().write(jsonOutput.getBytes());
             }

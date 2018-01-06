@@ -93,6 +93,7 @@ public class WebhooksCommands implements TabExecutor {
             return true;
         }
 
+        // Custom webhook execution - TO BE DISABLED
         if(args.length>=2 && args[0].equalsIgnoreCase("executecustom")){
             try{
                 URL url = new URL(args[1]);
