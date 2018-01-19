@@ -3,8 +3,8 @@
 
 # Thank you for using SimpleWebhooks! See my other plugins at http://akenland.com/plugins
 
-# Don't change the jsonatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
-# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with jsonatting.
+# Don't change the formatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
+# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
 # Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
 
 # There are four sections below: join, chat, quit, and other.
