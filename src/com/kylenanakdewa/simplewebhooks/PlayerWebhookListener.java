@@ -34,7 +34,7 @@ final class PlayerWebhookListener implements Listener {
         for(Webhook webhook : WebhooksPlugin.joinWebhooks.values()){
             // Replace vars
             replaceParamVars(webhook, event);
-            webhook.replaceParamVar("{EVENT_MESSAGE}", ChatColor.stripColor(event.getJoinMessage()));
+            webhook.replaceParamVar("{EVENT_MESSAGE}", ChatColor.stripColor(event.getJoinMessage()!=null ? event.getJoinMessage() : ""));
             // Execute the webhook
             webhook.execute();
         }
@@ -46,7 +46,7 @@ final class PlayerWebhookListener implements Listener {
         for(Webhook webhook : WebhooksPlugin.quitWebhooks.values()){
             // Replace vars
             replaceParamVars(webhook, event);
-            webhook.replaceParamVar("{EVENT_MESSAGE}", ChatColor.stripColor(event.getQuitMessage()));
+            webhook.replaceParamVar("{EVENT_MESSAGE}", ChatColor.stripColor(event.getQuitMessage()!=null ? event.getQuitMessage() : ""));
             // Execute the webhook
             webhook.execute();
         }
@@ -54,6 +54,9 @@ final class PlayerWebhookListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event){
+        // If event is cancelled, do nothing
+        if(event.isCancelled()) return;
+
         // Get the registered join webhooks
         for(Webhook webhook : WebhooksPlugin.chatWebhooks.values()){
             // Replace vars
