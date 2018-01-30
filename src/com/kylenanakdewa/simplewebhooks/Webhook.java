@@ -81,7 +81,7 @@ public class Webhook {
                 // Encode JSON params
                 String jsonOutput = getJsonParams(jsonParams);
 
-                connection.getOutputStream().write(jsonOutput.getBytes(charset));
+                if(jsonOutput.length()>2) connection.getOutputStream().write(jsonOutput.getBytes(charset));
             }
 
             // Complete the HTTP request
