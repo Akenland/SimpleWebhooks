@@ -134,8 +134,9 @@ public class Webhook {
         StringBuilder sb = new StringBuilder();
         sb.append('{');
         for(Map.Entry<String,String> param : convertedParams.entrySet())
-            sb.append("\""+param.getKey() + "\":\"" + param.getValue() + "\",");
-        sb.deleteCharAt(sb.length()-1);
+            if(param.getKey()!=null && !param.getKey().isEmpty() && param.getValue()!=null && !param.getValue().isEmpty())
+                sb.append("\""+param.getKey() + "\":\"" + param.getValue() + "\",");
+        if(sb.toString().endsWith(",")) sb.deleteCharAt(sb.length()-1);
         sb.append('}');
 
         //WebhooksPlugin.plugin.getLogger().info("JSON formatted as: "+sb);
