@@ -46,15 +46,15 @@ public final class WebhooksPlugin extends JavaPlugin {
 			getServer().getPluginManager().registerEvents(new DynmapWebhookListener(), this);
 		}
 
-		// Discord sync
-		if(discordToken!=null){
-			new DiscordListener().register(discordToken);
-			getLogger().info("Hooked in to Discord!");
-		}
-
 		// Load config
 		saveDefaultConfig();
 		loadConfig();
+
+		// Discord sync
+		if(discordToken!=null){
+			new DiscordListener().register(discordToken);
+			getLogger().info("Logged in to Discord!");
+		}
 	}
 
 

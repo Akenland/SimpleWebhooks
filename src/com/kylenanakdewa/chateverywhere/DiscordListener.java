@@ -18,7 +18,6 @@ public final class DiscordListener {
 
     @EventSubscriber
     public void onChat(MessageReceivedEvent event){
-        Bukkit.getLogger().info("Discord message received.");
         // Ignore if it's a webhook message
         if(event.getMessage().getWebhookLongID()==0){
             String message = "<"+event.getAuthor().getDisplayName(event.getGuild())+">" + event.getMessage().getFormattedContent();
