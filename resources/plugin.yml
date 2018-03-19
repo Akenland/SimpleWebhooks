@@ -5,6 +5,7 @@ author: Kyle Nanakdewa
 website: http://Akenland.com/plugins
 
 main: com.kylenanakdewa.simplewebhooks.WebhooksPlugin
+softdepend: [dynmap]
 
 commands:
   webhooks:

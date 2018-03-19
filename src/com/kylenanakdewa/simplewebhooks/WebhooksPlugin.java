@@ -49,6 +49,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 		// Discord sync
 		if(discordToken!=null){
 			new DiscordListener().register(discordToken);
+			getLogger().info("Hooked in to Discord!");
 		}
 
 		// Load config
