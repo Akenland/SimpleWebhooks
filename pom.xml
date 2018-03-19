@@ -31,6 +31,10 @@
       <id>dynmap-repo</id>
       <url>http://repo.mikeprimm.com/</url>
     </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+  </repository>
   </repositories>
 
   <dependencies>
@@ -48,5 +52,11 @@
       <version>2.6-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!--Discord4J API-->
+    <dependency>
+      <groupId>com.github.austinv11</groupId>
+      <artifactId>Discord4J</artifactId>
+      <version>dev-SNAPSHOT</version>
+  </dependency>
   </dependencies>
 </project>

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.kylenanakdewa.chateverywhere.DiscordListener;
 import com.kylenanakdewa.simplewebhooks.Webhook.RequestType;
 
 /**
@@ -26,6 +27,9 @@ public final class WebhooksPlugin extends JavaPlugin {
 	/** All registered other webhooks. */
 	static Map<String,Webhook> otherWebhooks;
 
+	/** Discord token. */
+	static String discordToken;
+
 
 	@Override
 	public void onEnable(){
@@ -42,6 +46,11 @@ public final class WebhooksPlugin extends JavaPlugin {
 			getServer().getPluginManager().registerEvents(new DynmapWebhookListener(), this);
 		}
 
+		// Discord sync
+		if(discordToken!=null){
+			new DiscordListener().register(discordToken);
+		}
+
 		// Load config
 		saveDefaultConfig();
 		loadConfig();
@@ -55,6 +64,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 		quitWebhooks = getFromConfig(getConfig().getConfigurationSection("webhooks.quit"));
 		chatWebhooks = getFromConfig(getConfig().getConfigurationSection("webhooks.chat"));
 		otherWebhooks = getFromConfig(getConfig().getConfigurationSection("webhooks.other"));
+		discordToken = getConfig().getString("discord");
 	}
 
 	/** Converts webhooks from the config into a map. */
