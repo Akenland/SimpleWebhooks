@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.dynmap.DynmapAPI;
 
 import sx.blah.discord.api.ClientBuilder;
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
@@ -13,7 +14,10 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 public final class DiscordListener {
 
     public void register(String token){
-        new ClientBuilder().withToken(token).login().getDispatcher().registerListener(this);
+        ClientBuilder clientBuilder = new ClientBuilder();
+        clientBuilder.withToken(token);
+        IDiscordClient client = clientBuilder.login();
+        client.getDispatcher().registerListener(this);
     }
 
     @EventSubscriber
