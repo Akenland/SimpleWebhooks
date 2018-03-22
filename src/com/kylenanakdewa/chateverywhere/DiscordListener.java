@@ -28,6 +28,7 @@ public final class DiscordListener {
         // Ignore if it's a webhook message
         if(event.getMessage().getWebhookLongID()==0){
             ChatColor realmColor = colorToChatColor(event.getAuthor().getColorForGuild(event.getGuild()));
+            if(realmColor.equals(ChatColor.BLACK)) realmColor = ChatColor.GRAY;
             String sender = event.getAuthor().getDisplayName(event.getGuild());
             String message = event.getMessage().getFormattedContent();
 
@@ -35,7 +36,7 @@ public final class DiscordListener {
             Bukkit.broadcastMessage(realmColor+"<"+sender+"> "+ChatColor.RESET + message);
 
             // Send it to dynmap
-            ((DynmapAPI)Bukkit.getPluginManager().getPlugin("dynmap")).sendBroadcastToWeb(realmColor+sender, message);
+            ((DynmapAPI)Bukkit.getPluginManager().getPlugin("dynmap")).sendBroadcastToWeb(null, "<"+sender+"> "+message);
         }
     }
 
