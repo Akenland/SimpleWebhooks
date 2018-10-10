@@ -64,6 +64,13 @@
       <version>1.12.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!--CoRE-->
+    <dependency>
+      <groupId>com.KyleNanakdewa</groupId>
+      <artifactId>CoRE</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
     <!--Dynmap API-->
     <dependency>
       <groupId>us.dynmap</groupId>
