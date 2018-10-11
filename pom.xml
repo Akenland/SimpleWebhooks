@@ -84,6 +84,12 @@
       <artifactId>Discord4J</artifactId>
       <version>dev-SNAPSHOT</version>
       <scope>compile</scope>
-  </dependency>
+    </dependency>
+    <!--Converts Discord logging to Bukkit loggers-->
+    <dependency> 
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.8.0-beta2</version>
+    </dependency>
   </dependencies>
 </project>
