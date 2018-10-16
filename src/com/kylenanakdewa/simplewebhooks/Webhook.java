@@ -150,6 +150,9 @@ public class Webhook {
         replaceParamVar("{SERVER_VERSION}", Bukkit.getVersion());
         replaceParamVar("{SERVER_MOTD}", Bukkit.getMotd());
         replaceParamVar("{WORLD_NAME}", Bukkit.getWorlds().get(0).getName());
+        // Escape " and \
+        replaceParamVar("\"", "\\\"");
+        replaceParamVar("\\", "\\\\");
     }
 
     /** Replace a variable in all parameters. */
