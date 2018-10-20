@@ -55,7 +55,7 @@ public final class DiscordListener {
                     String spacedTitle = character.getTitle() + (ChatColor.stripColor(character.getTitle()).length()>0 ? " " : "");
                     String adminPrefix = player.isOnline() && ((Player)player).hasPermission("core.admin") ? CoreConfig.adminPrefix+ChatColor.RESET : "";
     
-                    chatFormat = topParentRealmColor+"<"+adminPrefix+ChatColor.GRAY+spacedTitle+"%s"+topParentRealmColor+">"+ChatColor.DARK_GRAY+"[D] "+ChatColor.RESET+"%s";
+                    chatFormat = topParentRealmColor+"<"+adminPrefix+ChatColor.GRAY+spacedTitle+"%s"+topParentRealmColor+"> "+ChatColor.RESET+"%s";
                 }                
             }
             String message = event.getMessage().getFormattedContent();
