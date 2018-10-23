@@ -46,17 +46,19 @@ public final class DiscordListener {
             if(coreEnabled){
                 OfflinePlayer player = Utils.getPlayer(sender, true);
                 if(player==null) player = Utils.getPlayer(event.getAuthor().getName(), true);
-                PlayerCharacter character = PlayerCharacter.getCharacter(player);
+                if(player!=null){
+                    PlayerCharacter character = PlayerCharacter.getCharacter(player);
 
-                // Verify realm
-                if(!realmColor.equals(ChatColor.GRAY) && character.getRealm()!=null && character.getRealm().getColor().equals(realmColor)){
-                    realmColor = character.getRealm()!=null ? character.getRealm().getColor() : ChatColor.GRAY;
-                    ChatColor topParentRealmColor = character.getRealm()!=null && character.getRealm().getTopParentRealm()!=null ? character.getRealm().getTopParentRealm().getColor() : realmColor;
-                    String spacedTitle = character.getTitle() + (ChatColor.stripColor(character.getTitle()).length()>0 ? " " : "");
-                    String adminPrefix = player.isOnline() && ((Player)player).hasPermission("core.admin") ? CoreConfig.adminPrefix+ChatColor.RESET : "";
+                    // Verify realm
+                    if(!realmColor.equals(ChatColor.GRAY) && character.getRealm()!=null && character.getRealm().getColor().equals(realmColor)){
+                        realmColor = character.getRealm()!=null ? character.getRealm().getColor() : ChatColor.GRAY;
+                        ChatColor topParentRealmColor = character.getRealm()!=null && character.getRealm().getTopParentRealm()!=null ? character.getRealm().getTopParentRealm().getColor() : realmColor;
+                        String spacedTitle = character.getTitle() + (ChatColor.stripColor(character.getTitle()).length()>0 ? " " : "");
+                        String adminPrefix = player.isOnline() && ((Player)player).hasPermission("core.admin") ? CoreConfig.adminPrefix+ChatColor.RESET : "";
     
-                    chatFormat = topParentRealmColor+"<"+adminPrefix+ChatColor.GRAY+spacedTitle+"%s"+topParentRealmColor+"> "+ChatColor.RESET+"%s";
-                }                
+                        chatFormat = topParentRealmColor+"<"+adminPrefix+ChatColor.GRAY+spacedTitle+"%s"+topParentRealmColor+"> "+ChatColor.RESET+"%s";
+                    }
+                }
             }
             String message = event.getMessage().getFormattedContent();
 
