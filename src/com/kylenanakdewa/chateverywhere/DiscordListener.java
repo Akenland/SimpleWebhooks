@@ -42,7 +42,7 @@ public final class DiscordListener {
             ChatColor realmColor = colorToChatColor(event.getAuthor().getColorForGuild(event.getGuild()));
             if(realmColor==null || realmColor.equals(ChatColor.BLACK)) realmColor = ChatColor.GRAY;
             String sender = event.getAuthor().getDisplayName(event.getGuild());
-            String chatFormat = realmColor+"<%s>"+ChatColor.DARK_GRAY+"[D] "+ChatColor.RESET+"%s";
+            String chatFormat = realmColor+"<%s> "+ChatColor.RESET+"%s";
             if(coreEnabled){
                 OfflinePlayer player = Utils.getPlayer(sender, true);
                 if(player==null) player = Utils.getPlayer(event.getAuthor().getName(), true);
