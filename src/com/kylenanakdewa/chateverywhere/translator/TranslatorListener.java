@@ -81,26 +81,32 @@ public class TranslatorListener implements Listener, TabExecutor {
         startingIndex += 6;
         int endingIndex = response.indexOf("</text>");
 
-        return response.substring(startingIndex, endingIndex);
+        String translation = response.substring(startingIndex, endingIndex);
+
+        if(translation.equalsIgnoreCase(message)) return null;
+
+        return translation;
     }
 
 
-    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event) {
         // If event is cancelled, do nothing
-        if (event.isCancelled())
-            return;
+        if (event.isCancelled()) return;
+
+        String message = ChatColor.stripColor(event.getMessage());
+        // If message starts with / or ./, it's probably a command, ignore it
+        if(message.startsWith("/") || message.startsWith("./")) return;
 
         // Get languages to translate into
         Set<String> targetLanguages = new HashSet<String>(playerLanguages.values());
 
         for (String languageCode : targetLanguages) {
-            String message = translate(event.getMessage(), languageCode);
-            if(message!=null){
+            String translation = translate(message, languageCode);
+            if(translation!=null){
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     // Delay message, so it shows after the chat message
-                    Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> player.sendMessage(ChatColor.DARK_GRAY + "[Translation] " + ChatColor.RESET + message));
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.sendMessage(ChatColor.DARK_GRAY + "[Translation] " + ChatColor.RESET + translation));
                 }
             }
         }
