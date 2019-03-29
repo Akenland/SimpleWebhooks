@@ -80,13 +80,13 @@
     </dependency>
     <!--Discord4J API-->
     <dependency>
-      <groupId>com.github.austinv11</groupId>
+      <groupId>com.github.Discord4J</groupId>
       <artifactId>Discord4J</artifactId>
-      <version>dev-SNAPSHOT</version>
+      <version>2271cb0b14</version>
       <scope>compile</scope>
     </dependency>
     <!--Converts Discord logging to Bukkit loggers-->
-    <dependency> 
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <version>1.8.0-beta2</version>
