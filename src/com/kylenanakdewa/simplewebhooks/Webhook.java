@@ -1,6 +1,7 @@
 package com.kylenanakdewa.simplewebhooks;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,7 +16,7 @@ import org.bukkit.Bukkit;
  * A Webhook that can be executed to send a payload to a webserver.
  */
 public class Webhook {
-    
+
     /** The URL of this webhook. */
     private final URL url;
     /** The charset to use. */
@@ -37,7 +38,7 @@ public class Webhook {
 
 
     /** Creates a webhook. */
-    Webhook(URL url, Map<String,String> queryParams, RequestType requestType, Map<String,String> jsonParams){
+    public Webhook(URL url, Map<String,String> queryParams, RequestType requestType, Map<String,String> jsonParams){
         this.url = url;
         this.charset = java.nio.charset.StandardCharsets.UTF_8.name();
         this.queryParams = queryParams;
@@ -49,19 +50,19 @@ public class Webhook {
         replaceParamVars();
     }
     /** Creates a simple GET webhook. */
-    Webhook(URL url, Map<String,String> queryParams){
+    public Webhook(URL url, Map<String,String> queryParams){
         this(url, queryParams, RequestType.GET, null);
     }
 
 
     /** Gets the URL for this webhook. */
-    URL getURL(){
+    public URL getURL(){
         return url;
     }
 
 
     /** Executes the webhook, sending the data to the server. */
-    void execute(){
+    public InputStream execute(){
         //WebhooksPlugin.plugin.getLogger().info("Executing "+requestType+" webhook for URL "+url);
         try{
             // Encode query params
@@ -91,8 +92,11 @@ public class Webhook {
                 WebhooksPlugin.plugin.getLogger().warning(requestType+" webhook for URL "+url+" returned error code "+responseCode+": "+((HttpURLConnection)connection).getResponseMessage());
             //WebhooksPlugin.plugin.getLogger().info("Webhook executed. "+((HttpURLConnection)connection).getResponseCode()+": "+((HttpURLConnection)connection).getResponseMessage());
 
+            return connection.getInputStream();
+
         } catch(IOException e){
-			WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
+            WebhooksPlugin.plugin.getLogger().severe(e.getLocalizedMessage());
+            return null;
 		}
     }
 
@@ -151,12 +155,12 @@ public class Webhook {
         replaceParamVar("{SERVER_MOTD}", Bukkit.getMotd());
         replaceParamVar("{WORLD_NAME}", Bukkit.getWorlds().get(0).getName());
         // Escape " and \
-        replaceParamVar("\"", "\\\"");
-        replaceParamVar("\\", "\\\\");
+        replaceParamVar("\"", "%22");
+        replaceParamVar("\\", "%5C");
     }
 
     /** Replace a variable in all parameters. */
-    void replaceParamVar(String target, String replacement){
+    public void replaceParamVar(String target, String replacement){
         paramVars.put(target, replacement);
     }
 }

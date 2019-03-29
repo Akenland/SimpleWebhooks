@@ -12,3 +12,6 @@ commands:
     description: View plugin information, reload the plugin, and execute webhooks.
     permission: webhooks.admin
     usage: /webhooks <version/list/reload/execute> [webhook name] [params...]
+  translate:
+    description: Translate chat messages.
+    usage: /translate <message> OR /translate -set <language code>

@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.kylenanakdewa.chateverywhere.DiscordListener;
+import com.kylenanakdewa.chateverywhere.translator.TranslatorListener;
 import com.kylenanakdewa.simplewebhooks.Webhook.RequestType;
 
 /**
@@ -28,7 +29,9 @@ public final class WebhooksPlugin extends JavaPlugin {
 	static Map<String,Webhook> otherWebhooks;
 
 	/** Discord token. */
-	static String discordToken;
+	private static String discordToken;
+	/** Translator API key. */
+	private static String translatorApiKey;
 
 
 	@Override
@@ -55,6 +58,13 @@ public final class WebhooksPlugin extends JavaPlugin {
 			new DiscordListener().register(discordToken);
 			getLogger().info("Logged in to Discord!");
 		}
+
+		// Translator
+		if(translatorApiKey!=null){
+			TranslatorListener listener = new TranslatorListener(translatorApiKey,this);
+			getServer().getPluginManager().registerEvents(listener, this);
+			getCommand("translate").setExecutor(listener);
+		}
 	}
 
 
@@ -66,6 +76,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 		chatWebhooks = getFromConfig(getConfig().getConfigurationSection("webhooks.chat"));
 		otherWebhooks = getFromConfig(getConfig().getConfigurationSection("webhooks.other"));
 		discordToken = getConfig().getString("discord");
+		translatorApiKey = getConfig().getString("translator");
 	}
 
 	/** Converts webhooks from the config into a map. */
