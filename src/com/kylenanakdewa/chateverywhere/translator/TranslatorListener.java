@@ -85,6 +85,7 @@ public class TranslatorListener implements Listener, TabExecutor {
     }
 
 
+    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event) {
         // If event is cancelled, do nothing
@@ -96,10 +97,11 @@ public class TranslatorListener implements Listener, TabExecutor {
 
         for (String languageCode : targetLanguages) {
             String message = translate(event.getMessage(), languageCode);
-            if(message==null) return;
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.sendMessage(ChatColor.DARK_GRAY + "[Translation] " + ChatColor.RESET + message);
+            if(message!=null){
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    // Delay message, so it shows after the chat message
+                    Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> player.sendMessage(ChatColor.DARK_GRAY + "[Translation] " + ChatColor.RESET + message));
+                }
             }
         }
 
