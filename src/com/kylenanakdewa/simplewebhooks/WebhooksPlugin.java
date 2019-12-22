@@ -46,7 +46,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 
 		// Register Dynmap listener
 		if(getServer().getPluginManager().isPluginEnabled("dynmap")){
-			getServer().getPluginManager().registerEvents(new DynmapWebhookListener(), this);
+			//getServer().getPluginManager().registerEvents(new DynmapWebhookListener(), this);
 		}
 
 		// Load config

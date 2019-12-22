@@ -10,42 +10,40 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.dynmap.DynmapAPI;
 
-import sx.blah.discord.api.ClientBuilder;
-import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import discord4j.core.DiscordClient;
+import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.domain.message.MessageCreateEvent;
 
 /**
  * DiscordListener
  */
 public final class DiscordListener {
 
-    private boolean dynmapEnabled;
+    //private boolean dynmapEnabled;
     private boolean coreEnabled;
 
     public void register(String token){
-        ClientBuilder clientBuilder = new ClientBuilder();
-        clientBuilder.withToken(token);
-        IDiscordClient client = clientBuilder.login();
-        client.getDispatcher().registerListener(this);
+        DiscordClient client = new DiscordClientBuilder(token).build();
+        client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(event -> onChat(event));
 
-        dynmapEnabled = Bukkit.getPluginManager().isPluginEnabled("dynmap");
+        //dynmapEnabled = Bukkit.getPluginManager().isPluginEnabled("dynmap");
         coreEnabled = Bukkit.getPluginManager().isPluginEnabled("CoRE");
     }
 
-    @EventSubscriber
-    public void onChat(MessageReceivedEvent event){
+    public void onChat(MessageCreateEvent event){
         // Ignore if it's a webhook message
-        if(event.getMessage().getWebhookLongID()==0){
-            ChatColor realmColor = colorToChatColor(event.getAuthor().getColorForGuild(event.getGuild()));
+        if(!event.getMessage().getWebhookId().isPresent() || event.getMessage().getWebhookId().get().asLong() == 0) {
+            // Get color
+            ChatColor realmColor = colorToChatColor(event.getMember().get().getColor().block());
             if(realmColor==null || realmColor.equals(ChatColor.BLACK)) realmColor = ChatColor.GRAY;
-            String sender = event.getAuthor().getDisplayName(event.getGuild());
+
+            // Get sender name
+            String sender = event.getMember().get().getDisplayName();
             String chatFormat = realmColor+"<%s> "+ChatColor.RESET+"%s";
             if(coreEnabled){
                 OfflinePlayer player = Utils.getPlayer(sender, true);
-                if(player==null) player = Utils.getPlayer(event.getAuthor().getName(), true);
+                if(player==null) player = Utils.getPlayer(event.getMember().get().getUsername(), true);
                 if(player!=null){
                     PlayerCharacter character = PlayerCharacter.getCharacter(player);
 
@@ -55,18 +53,18 @@ public final class DiscordListener {
                         ChatColor topParentRealmColor = character.getRealm()!=null && character.getRealm().getTopParentRealm()!=null ? character.getRealm().getTopParentRealm().getColor() : realmColor;
                         String spacedTitle = character.getTitle() + (ChatColor.stripColor(character.getTitle()).length()>0 ? " " : "");
                         String adminPrefix = player.isOnline() && ((Player)player).hasPermission("core.admin") ? CoreConfig.adminPrefix+ChatColor.RESET : "";
-    
+
                         chatFormat = topParentRealmColor+"<"+adminPrefix+ChatColor.GRAY+spacedTitle+"%s"+topParentRealmColor+"> "+ChatColor.RESET+"%s";
                     }
                 }
             }
-            String message = event.getMessage().getFormattedContent();
+            String message = event.getMessage().getContent().orElse("<Message in Discord>");
 
             // Send it to the server
             Bukkit.broadcastMessage(String.format(chatFormat, sender, message));
 
             // Send it to dynmap
-            if(dynmapEnabled) ((DynmapAPI)Bukkit.getPluginManager().getPlugin("dynmap")).sendBroadcastToWeb(null, String.format(chatFormat, sender, message));
+            //if(dynmapEnabled) ((DynmapAPI)Bukkit.getPluginManager().getPlugin("dynmap")).sendBroadcastToWeb(null, String.format(chatFormat, sender, message));
         }
     }
 
