@@ -1,24 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.kylenanakdewa</groupId>
   <artifactId>SimpleWebhooks</artifactId>
   <version>1.0</version>
-
   <build>
     <sourceDirectory>${basedir}/src</sourceDirectory>
-    <finalName>${project.artifactId}</finalName>
     <resources>
       <resource>
         <directory>${basedir}/resources</directory>
       </resource>
     </resources>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.1.0</version>
         <executions>
@@ -32,45 +27,51 @@
       </plugin>
     </plugins>
   </build>
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
   <repositories>
     <repository>
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
   </repositories>
-
   <dependencies>
-    <!--Spigot API-->
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.14.4-R0.1-SNAPSHOT</version>
+      <version>1.14.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bungeecord-chat</artifactId>
+          <groupId>net.md-5</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
-    <!--CoRE-->
     <dependency>
       <groupId>com.KyleNanakdewa</groupId>
       <artifactId>CoRE</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
     </dependency>
-    <!--Dynmap API-->
-    <!--<dependency>
-      <groupId>us.dynmap</groupId>
-      <artifactId>dynmap-api</artifactId>
-      <version>2.6-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>-->
-    <!--Discord4J API-->
-    <dependency>
-      <groupId>com.discord4j</groupId>
-      <artifactId>discord4j-core</artifactId>
-      <version>3.0.11</version>
-  </dependency>
   </dependencies>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 </project>
+
