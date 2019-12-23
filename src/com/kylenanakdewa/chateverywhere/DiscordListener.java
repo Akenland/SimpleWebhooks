@@ -26,7 +26,12 @@ public final class DiscordListener {
     public void register(String token){
         DiscordClient client = new DiscordClientBuilder(token).build();
         client.getEventDispatcher().on(MessageCreateEvent.class).subscribe(event -> onChat(event));
-        client.login().block();
+
+        try {
+            client.login().subscribe();
+        } catch (Exception e) {
+            Utils.notifyAdminsError("Failed to login to Discord.");
+        }
 
         //dynmapEnabled = Bukkit.getPluginManager().isPluginEnabled("dynmap");
         coreEnabled = Bukkit.getPluginManager().isPluginEnabled("CoRE");
