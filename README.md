@@ -1,9 +1,7 @@
 # SimpleWebhooks
 A Bukkit plugin for webhooks
 
-![Image](https://kylenanakdewa.visualstudio.com/_apis/public/build/definitions/d9964615-0dc2-48a8-b08d-00fc606158c0/8/badge)
-
-Documentation and download links will be posted soon. If you want it for your Spigot server sooner, please send an email to Kyle@Akenland.com
+Download and instructions can be found [here](https://github.com/Akenland/SimpleWebhooks/releases). For help, please [create an issue](https://github.com/Akenland/SimpleWebhooks/issues/new) or send an email to Kyle@Akenland.com
 
 # About this plugin
 This plugin will send webhooks to specified URLs when something happens on your server. You can use it to mirror chat messages to Discord servers, track player joins and quits, recieve notifications when something happens in-game, ping a web server (such as a dynamic DNS service), update a website, or integrate with anything that uses webhooks. 
