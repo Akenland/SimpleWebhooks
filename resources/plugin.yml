@@ -1,8 +1,8 @@
 name: SimpleWebhooks
 version: 1.0
 description: A simple plugin for sending data to webhooks.
-author: Kyle Nanakdewa
-website: http://Akenland.com/plugins
+author: Kade
+website: https://plugins.akenland.com
 
 main: com.kylenanakdewa.simplewebhooks.WebhooksPlugin
 softdepend: [dynmap, CoRE]

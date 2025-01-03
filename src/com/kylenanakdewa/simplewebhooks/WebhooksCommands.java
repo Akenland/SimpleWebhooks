@@ -18,7 +18,7 @@ public class WebhooksCommands implements TabExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		// Version command
 		if(args.length==0 || args[0].equalsIgnoreCase("version")){
-			sender.sendMessage("SimpleWebhooks "+WebhooksPlugin.plugin.getDescription().getVersion()+" by Kyle Nanakdewa");
+			sender.sendMessage("SimpleWebhooks "+WebhooksPlugin.plugin.getDescription().getVersion()+" by Kade");
             sender.sendMessage("- A simple plugin for sending data to webhooks.");
             sender.sendMessage("- Website: http://Akenland.com/plugins");
 			return true;
