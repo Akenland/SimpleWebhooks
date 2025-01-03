@@ -10,8 +10,6 @@ import com.kylenanakdewa.simplewebhooks.Webhook;
 
 /**
  * The webhook used for translation.
- *
- * @author Kyle Nanakdewa
  */
 class TranslatorWebhook extends Webhook {
 

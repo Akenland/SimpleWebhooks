@@ -31,7 +31,6 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * Listens for chat messages, and translates them if needed.
- * @author Kyle Nanakdewa
  */
 public class TranslatorListener implements Listener, TabExecutor {
 
