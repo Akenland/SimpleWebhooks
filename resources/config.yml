@@ -1,99 +1,235 @@
 # SimpleWebhooks by Kade
-# Configuration
+# https://plugins.akenland.com/simplewebhooks
 
-# Thank you for using SimpleWebhooks! See my other plugins at https://plugins.akenland.com
+# After editing this file, use "/webhooks reload" to load your changes into the server.
+# To reset this config to default, delete it, and then reload the plugin.
 
-# Don't change the formatting of this file, or Bukkit will complain. To reset this config to default, just delete it. 
-# We recommend using VS Code (https://code.visualstudio.com/) to modify this file, as it will help you with formatting.
-# Do NOT use tabs (tab indent) - use spaces. VS Code will automatically insert spaces, but other text editors won't.
 
-# There are four sections below: join, chat, quit, and other.
-# You can have any number of webhooks in each section.
+# HTTP Client Configuration
+# These settings apply to all webhooks, and control how the plugin connects.
+http-client:
+  # Whether to follow redirects. Can be ALWAYS, NEVER, or NORMAL. If NORMAL, always redirect except for HTTPS to HTTP URLs. Default NEVER.
+  follow-redirects: NEVER
+
+  # The timeout to connect, in seconds. Set to 0 to disable. Default 10.
+  timeout: 10
+
+  # By default, the plugin sends a user agent containing the server version, plugin version, and your server name and contact info.
+  # Example: "Spigot/1.21.4-R0.1-SNAPSHOT (SimpleWebhooks/2.0 +https://plugins.akenland.com/simplewebhooks) Akenland (admins@akenland.com)"
+
+  # Set your server name here, so that receiving servers can identify you.
+  # Example: server-name: Akenland
+  server-name: #Your Server Name
+
+  # Set your email address here, so that receiving servers can contact you if there are issues.
+  # Example: server-contact: admins@akenland.com
+  server-contact-email: #your_name@example.com
+
+  # Alternatively, you can completely override the user agent here, or set to NONE to disable sending a user agent altogether.
+  user-agent-override:
+
 
 # A webhook entry looks like:
-#   webhook-name:                                               # The unique name of the webhook.
-#     url: http://someurl.com/                                  # The URL of the webhook. MUST include the protocol (http://) AND the '/' at the end.
-#     query:                                                    # The query data to be sent (optional)
-#       value1: "Some value to be sent as query data."          # Query data is added onto end of URL, like http://someurl.com/?value1=some-value
-#     json:                                                     # The JSON data to be sent (optional)
-#       value1: "Some value to be sent as JSON data."           # If this is excluded, a GET request will be fired. If included, a POST request is fired.
+#   webhook-name:                                               # The unique name of the webhook, case-insensitive, cannot contain spaces.
+#     url: https://example.com/                                 # URL of the webhook. MUST include the protocol (https://).
+#     method: POST                                              # HTTP method to use. May be GET, POST, PUT, DELETE, or HEAD. Default is GET or POST, depending on if a body is set.
+#     headers:                                                  # HTTP headers to send. Optional.
+#       Content-Type: application/json                          # Example header.
+#     body: >                                                   # If method is POST or PUT, this is the body of the request. May be multi-line. Optional.
+#       {
+#         "key": "value"
+#       }
+#     triggers:                                                 # Categories of events that trigger this webhook. Some are included, but other plugins may add more. Optional.
+#     - PLAYER_JOIN                                             # Triggered when a player joins the server.
+#     - PLAYER_QUIT                                             # Triggered when a player leaves the server.
 
-# The values for query and json data can include the following variables:
-# {PLAYER_COUNT} - the current number of players on the server
-# {MAX_PLAYER_COUNT} - the maximum number of players that can be online, as set in server.properties
-# {SERVER_VERSION} - the Minecraft version of this server
-# {SERVER_MOTD} - the MOTD of this server, as set in server.properties
-# {WORLD_NAME} - the name of the server's default world, as set in server.properties
 
-# For join, quit, and chat webhooks, you can also use these variables:
-# {PLAYER_USERNAME} - username of the player
-# {PLAYER_DISPLAYNAME} - display name (nickname) of the player, or their username if they don't have one
-# {PLAYER_ISNEW} - TRUE if the player is on the server for the first time, otherwise FALSE
-# {PLAYER_UUID} - the UUID of the player
-# {PLAYER_IP} - the IP address of the player
-# {PLAYER_ENTITYID} - the entity ID of the player (every entity in a world has a unique ID, this is NOT their Minecraft UUID)
-# {PLAYER_LOC_WORLD} - the world the player is currently on
-# {PLAYER_LOC_X} - X co-ord of the player
-# {PLAYER_LOC_Y} - Y co-ord of the player
-# {PLAYER_LOC_Z} - Z co-ord of the player
-# {EVENT_MESSAGE} - a "friendly" message for the event, matching the one shown in-game ("SomePlayer joined the game.") Chat is displayed with name AND message: "<SomePlayer> This is a chat message!"
+# You may use variables in the URL, headers, and body. These will be replaced with the appropriate values when the webhook is executed.
 
-# For chat webhooks, you can also use the following:
-# {CHAT_MESSAGE} - the chat message, without the player name in front of it.
+# The following variables are available for all webhooks:
+# {{PLAYER_COUNT}} - the current number of players on the server
+# {{MAX_PLAYER_COUNT}} - the maximum number of players that can be online, as set in server.properties
+# {{SERVER_VERSION}} - the server version, looks like "1.21.4-R0.1-SNAPSHOT"
+# {{SERVER_MOTD}} - the MOTD of this server, as set in server.properties
+# {{WORLD_NAME}} - the name of the server's default world, as set in server.properties
+# {{WEBHOOKS_PLUGIN_VERSION}} - the version of SimpleWebhooks, looks like "SimpleWebhooks 2.0"
 
-# Full documentation can be found at http://akenland.com/plugins/webhooks
-# After editing this file, use "/webhooks reload" to load your changes into the server.
+# For webhooks triggered by various events, you can also use this variable:
+# {{EVENT_MESSAGE}} - a "friendly" message for the event, typically matching the one shown in-game ("SomePlayer joined the game.") Chat is displayed with name AND message: "<SomePlayer> This is a chat message!"
+
+# For webhooks involving a block, you can also use these variables:
+# {{BLOCK_LOC_WORLD}} - world that the block is in
+# {{BLOCK_LOC_X}} - X co-ord of the block
+# {{BLOCK_LOC_Y}} - Y co-ord of the block
+# {{BLOCK_LOC_Z}} - Z co-ord of the block
+# {{BLOCK_TYPE}} - the namespaced key of the block, looks like "minecraft:stone"
+
+# For webhooks involving a player, you can also use these variables:
+# {{PLAYER_USERNAME} - username of the player
+# {{PLAYER_DISPLAYNAME} - display name (nickname) of the player, or their username if they don't have one
+# {{PLAYER_ISNEW} - TRUE if the player is on the server for the first time, otherwise FALSE
+# {{PLAYER_UUID} - the UUID of the player
+# {{PLAYER_IP} - the IP address of the player
+# {{PLAYER_ENTITYID} - the entity ID of the player (every entity in a world has a unique ID, this is NOT their Minecraft UUID)
+# {{PLAYER_LOC_WORLD} - the world the player is currently on
+# {{PLAYER_LOC_X} - X co-ord of the player
+# {{PLAYER_LOC_Y} - Y co-ord of the player
+# {{PLAYER_LOC_Z} - Z co-ord of the player
+# {{PLAYER_HEALTH} - the health of the player
+# {{PLAYER_LOCALE}} - the locale (game language) that the player is using, looks like "en_us"
+# {{PLAYER_GAMEMODE}} - the game mode of the player, looks like "SURVIVAL"
+# {{PLAYER_PING}} - the ping of the player, in milliseconds
+# {{PLAYER_ISOP} - TRUE if the player is an operator, otherwise FALSE
+# {{PLAYER_HASPERMISSION_scrapbukkit.example}} - TRUE if the player has the permission "scrapbukkit.example", otherwise FALSE, where "scrapbukkit.example" is any permission
+
+# For webhooks involving a chat message, you can also use this variabls:
+# {{CHAT_MESSAGE}} - the chat message, without the player name in front of it.
+
+# For webhooks involving an advancement, you can also use these variables:
+# {{ADVANCEMENT_KEY}} - the namespaced key of the advancement, looks like "minecraft:story/mine_stone"
+# {{ADVANCEMENT_NAME}} - the display name of the advancement, looks like "Stone Age"
+# {{ADVANCEMENT_DESCRIPTION}} - the description of the advancement, looks like "Mine Stone with your new Pickaxe"
+# {{ADVANCEMENT_TYPE}} - the type of the advancement, may be "TASK", "GOAL", or "CHALLENGE"
+
+# For webhooks involving a death, you can also use these variables:
+# {{PLAYER_KEEPINVENTORY}} - TRUE if the player will keep their items on death, otherwise FALSE
+# {{PLAYER_DROPS_COUNT}} - the number of item stacks that the player will drop on death
+# {{DAMAGE_TYPE}} - the type of damage that killed the player, looks like "minecraft:PLAYER_ATTACK"
+# {{DAMAGE_CAUSER_NAME}} - the name of the entity that caused the damage, looks like "Zombie" or a player username
+# {{DAMAGE_CAUSER_DISPLAYNAME}} - the custom name of the entity that caused the damage, or a player display name, otherwise the same as DAMAGE_CAUSER_NAME
+# {{DAMAGE_CAUSER_UUID}} - the UUID of the entity that caused the damage
+# {{DAMAGE_CAUSER_TYPE}} - the type of entity that caused the damage, looks like "minecraft:zombie" or "minecraft:player"
+
+# For webhooks triggered by sending any command, you can also use this variable:
+# {{COMMAND_LINE}} - the full command that was sent, may or may not include the slash. For example, "help" or "give @p minecraft:dirt 64".
+# {{COMMAND_SENDER_NAME}} - the name of the command sender, this may be a player username, "CONSOLE", "COMMAND_BLOCK", or the command block's custom name
+
+# For webhooks executed by the webhooks command, you can also use these variables:
+# {{COMMAND_PARAM_1}} - the first parameter of the command, replace with 2, 3, etc. for more parameters
+# {{COMMAND_PARAM_ALL}} - all parameters of the command, separated by spaces
+# {{COMMAND_PARAM_COUNT}} - the number of parameters in the command
+# {{COMMAND_SENDER_NAME}} - the name of the command sender, this may be a player username, "CONSOLE", "COMMAND_BLOCK", or the command block's custom name
+# If the command was sent by a player, you can also use the player variables above.
+# If the command was sent by a command block, the player variables are available and will use the nearest player, and the block variables above refer to the block itself.
+
+# Other plugins may add more variables, so check their documentation for more info.
+
+
+# Triggers are events that will cause the webhook to be executed automatically.
+# You can have multiple triggers for a single webhook. Triggers aren't required if a webhook will only be executed by commands.
+
+# The following general triggers are available:
+# - SERVER_START: Triggered once when the server has finished starting up.
+# - HOURLY: Triggered when the server starts and then again every hour.
+# - DAILY: Triggered when the server starts and then again every 24 hours.
+# - SERVER_COMMAND: Triggered when a non-player (typically the console or a command block) sends any command.
+
+# The following player triggers are available:
+# - PLAYER_JOIN: Triggered when a player joins the server.
+# - PLAYER_QUIT: Triggered when a player leaves the server.
+# - PLAYER_CHAT: Triggered when a player sends a chat message.
+# - PLAYER_DEATH: Triggered when a player dies.
+# - PLAYER_ADVANCEMENT: Triggered when a player earns an advancement.
+# - PLAYER_COMMAND: Triggered when a player sends any command.
+# - PLAYER_CHANGEWORLD: Triggered when a player changes worlds.
+# - PLAYER_CHANGEGAMEMODE: Triggered when a player changes game modes.
+
+# The following world triggers are available:
+# - WORLD_LOAD: Triggered when a world is loaded.
+# - WORLD_UNLOAD: Triggered when a world is unloaded.
+# - WORLD_SAVE: Triggered when a world is saved.
+
+# Other plugins may add more triggers, so check their documentation for more info.
 
 
 webhooks:
 
-  # Webhooks in this section are executed automatically when any player joins the server.
-  join:
+  # An example player join webhook. The json data will be sent to the specified URL.
+  example-join:
+    url: https://example.com/
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "player": "{{PLAYER_USERNAME}}",
+        "world": "{{PLAYER_LOC_WORLD}}",
+        "x": "{{PLAYER_LOC_X}}",
+        "y": "{{PLAYER_LOC_Y}}",
+        "z": "{{PLAYER_LOC_Z}}"
+      }
+    triggers:
+    - PLAYER_JOIN
 
-    # An example player join webhook. The json data will be sent to the specified URL.
-    example-join:
-      url: http://someurl.com/
-      json:
-        message: "{PLAYER_NAME} joined the server! They are on world {PLAYER_WORLD}."
-        player-count: "There are {PLAYER_COUNT} players online, out of a maximum of {MAX_PLAYER_COUNT}."
+  # An example to mirror your server's chat into a Discord channel. Create your Discord webhook URL in Server/Channel Settings.
+  # The player's display name and skin will also be sent into Discord, so it looks like a normal Discord message.
+  example-discord-chat-sync:
+    url: https://discord.com/api/webhooks/FILL-IN-YOUR-DISCORD-WEBHOOK-URL/
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "content": "{{CHAT_MESSAGE}}",
+        "username": "{{PLAYER_DISPLAYNAME}}",
+        "avatar_url": "https://minotar.net/helm/{{PLAYER_USERNAME}}"
+      }
+    triggers:
+    - PLAYER_CHAT
 
+  # An example where variables are used in HTTP headers. A custom web server application could use these headers to identify players.
+  example-headers:
+    url: https://example.com/
+    headers:
+      Player-Name: "{{PLAYER_USERNAME}}"
+      Player-UUID: "{{PLAYER_UUID}}"
+      Player-IP: "{{PLAYER_IP}}"
+      Player-IsNew: "{{PLAYER_ISNEW}}"
+      Content-Type: text/plain
+    body: "{{EVENT_MESSAGE}}"
+    triggers:
+    - PLAYER_JOIN
+    - PLAYER_QUIT
 
-  # Webhooks in this section are executed automatically when any chat message is sent.
-  chat:
-
-    # An example to mirror your server's chat into a Discord channel. Create your Discord webhook URL in Server/Channel Settings.
-    # The player's display name and skin will also be sent into Discord, so it looks like a normal Discord message.
-    example-discord-chat-sync:
-      url: https://discordapp.com/api/webhooks/FILL-IN-YOUR-DISCORD-WEBHOOK-URL/
-      json:
-        content: "{CHAT_MESSAGE}"
-        username: "{PLAYER_DISPLAYNAME}"
-        avatar_url: "https://minotar.net/helm/{PLAYER_NAME}"
-
-
-  # Webhooks in this section are executed automatically when any player leaves the server.
-  quit:
-
-    # An example for IFTTT. You can create an applet to be triggered (using the Webhook service on IFTTT) when a player quits.
-    # Three values can be sent to IFTTT and used as "ingredients" for your triggered action.
-    example-ifttt-quit:
-      url: https://maker.ifttt.com/trigger/FILL_IN_YOUR_EVENT_NAME/with/key/FILL_IN_YOUR_KEY/
-      json:
-        value1: "{PLAYER_USERNAME}"
-        value2: "{PLAYER_IP}"
-        value3: "{PLAYER_UUID}"
-
-
-  # Webhooks in this section are not executed automatically - only through the command "/webhooks execute <webhook name> [params...]""
-  other:
-
-    # An example that can be used through a command block, useful if you want to fire webhooks using redstone.
-    # Or, set up an alias command, and your admins can trigger webhooks with commands.
-    # Command is "/webhooks execute example-command-block [param 1] [param 2] [param 3]"
-    # You can have any number of params in the command.
-    example-command-block:
-      url: http://someurl.com/
-      json:
-        value1: "{COMMAND_PARAM_1}"
-        value2: "{COMMAND_PARAM_2}"
-        value3: "{COMMAND_PARAM_3}"
+  # An example that can be used through a command block, useful if you want to fire webhooks using redstone.
+  # Or, set up an alias command, and your admins can trigger webhooks with commands.
+  # Command is "/webhooks execute example-command-block [params...]"
+  # You can have any number of params in the command.
+  example-command-block:
+    url: https://example.com/
+    headers:
+      Command-Sender: "{{COMMAND_SENDER_NAME}}"
+      Command-Param-Count: "{{COMMAND_PARAM_COUNT}}"
+      Content-Type: text/plain
+    body: "{{COMMAND_LINE}}"
+  
+  # An example that triggers every hour, useful for sending regular updates to a web server.
+  example-hourly:
+    url: https://example.com/
+    headers:
+      Content-Type: application/json
+    body: >
+      {
+        "current_players": "{{PLAYER_COUNT}}",
+        "max_players": "{{MAX_PLAYER_COUNT}}",
+        "server_version": "{{SERVER_VERSION}}"
+      }
+    triggers:
+    - HOURLY
+  
+  # An example that creates a yml file on a web server when a player joins.
+  example-put:
+    url: https://example.com/players/{{PLAYER_UUID}}.yml
+    method: PUT
+    headers:
+      Content-Type: application/yaml
+    body: >
+      username: "{{PLAYER_USERNAME}}"
+      location:
+        world: "{{PLAYER_LOC_WORLD}}"
+        x: "{{PLAYER_LOC_X}}"
+        y: "{{PLAYER_LOC_Y}}"
+        z: "{{PLAYER_LOC_Z}}"
+      ip: "{{PLAYER_IP}}"
+      locale: "{{PLAYER_LOCALE}}"
+      op: "{{PLAYER_ISOP}}"
+    triggers:
+    - PLAYER_JOIN

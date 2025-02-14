@@ -2,7 +2,7 @@
 A Bukkit plugin for webhooks
 
 > [!NOTE]
-> This branch of the project is no longer receiving updates. The 1.0 release still works in newer Bukkit-based servers (CraftBukkit/Spigot/Paper/others), but support may not be provided for this version. Future updates will be in the main branch.
+> The plugin has been completely rewritten in the 2.0 release and the information below has not yet been updated.
 
 Download and instructions can be found [here](https://github.com/Akenland/SimpleWebhooks/releases). For help, please [create an issue](https://github.com/Akenland/SimpleWebhooks/issues/new) or send an email to kade@akenland.com
 
