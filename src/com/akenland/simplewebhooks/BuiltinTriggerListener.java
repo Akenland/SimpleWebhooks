@@ -70,6 +70,10 @@ public final class BuiltinTriggerListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerAdvancement(PlayerAdvancementDoneEvent event) {
+        // Ignore recipe unlocks
+        if(event.getAdvancement().getKey().getKey().startsWith("recipes/")) {
+            return;
+        }
         PLUGIN.executeWebhooksByTrigger("PLAYER_ADVANCEMENT", event);
     }
 
