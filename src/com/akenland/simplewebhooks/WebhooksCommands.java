@@ -46,13 +46,16 @@ final class WebhooksCommands implements TabExecutor {
             Map<String, Webhook> webhooks;
 
             // Second arg, if present, filters webhooks by trigger
-            if (args.length == 2) {
+            if (args.length == 2 && args[1].equalsIgnoreCase("all")) {
+                header = "All webhooks";
+                webhooks = PLUGIN.getWebhooks();
+            } else if (args.length == 2) {
                 String trigger = args[1].toUpperCase();
                 header = "Webhooks for trigger " + trigger;
                 webhooks = PLUGIN.getWebhooksByTrigger(trigger);
             } else {
-                header = "All webhooks";
-                webhooks = PLUGIN.getWebhooks();
+                header = "Manually-triggered webhooks";
+                webhooks = PLUGIN.getWebhooksByTrigger(null);
             }
 
             String count = COLOR8 + " (" + COLOR7 + webhooks.size() + COLOR8 + ")";
@@ -143,7 +146,7 @@ final class WebhooksCommands implements TabExecutor {
 
         // Execute command - return list of webhooks
         if (args.length == 2 && args[0].equalsIgnoreCase("execute")) {
-            return new ArrayList<String>(PLUGIN.getWebhooks().keySet());
+            return new ArrayList<String>(PLUGIN.getWebhooksByTrigger(null).keySet());
         }
 
         // Trigger command - return list of triggers

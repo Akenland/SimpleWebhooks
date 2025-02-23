@@ -143,6 +143,7 @@ public final class WebhooksPlugin extends JavaPlugin {
 	private void loadWebhooksFromConfig(ConfigurationSection config) {
 		webhooks = new HashMap<String, Webhook>();
 		triggers = new HashMap<String, Set<Webhook>>();
+		triggers.put("WEBHOOKS_INTERNAL_NONE", new HashSet<Webhook>());
 
 		for (var webhookName : config.getKeys(false)) {
 			// HTTP method
@@ -180,12 +181,17 @@ public final class WebhooksPlugin extends JavaPlugin {
 			webhooks.put(webhookName.toLowerCase(), webhook);
 
 			// Triggers
-			for (var trigger : config.getStringList(webhookName + ".triggers")) {
-				trigger = trigger.toUpperCase();
-				if (!triggers.containsKey(trigger)) {
-					triggers.put(trigger, new HashSet<Webhook>());
+			var triggerList = config.getStringList(webhookName + ".triggers");
+			if (triggerList.isEmpty()) {
+				triggers.get("WEBHOOKS_INTERNAL_NONE").add(webhook);
+			} else {
+				for (var trigger : config.getStringList(webhookName + ".triggers")) {
+					trigger = trigger.toUpperCase();
+					if (!triggers.containsKey(trigger)) {
+						triggers.put(trigger, new HashSet<Webhook>());
+					}
+					triggers.get(trigger).add(webhook);
 				}
-				triggers.get(trigger).add(webhook);
 			}
 		}
 	}
@@ -201,11 +207,16 @@ public final class WebhooksPlugin extends JavaPlugin {
 
 	/**
 	 * Gets all webhooks that are triggered by a specific trigger.
+	 * <p>
+	 * If trigger is null, returns all webhooks have no triggers.
 	 * 
 	 * @param trigger The trigger to get webhooks for.
 	 * @return A map of webhooks, with their names as keys.
 	 */
 	Map<String, Webhook> getWebhooksByTrigger(String trigger) {
+		if (trigger == null) {
+			trigger = "WEBHOOKS_INTERNAL_NONE";
+		}
 		var webhooks = triggers.getOrDefault(trigger.toUpperCase(), new HashSet<Webhook>());
 		Map<String, Webhook> webhookMap = new HashMap<String, Webhook>();
 
